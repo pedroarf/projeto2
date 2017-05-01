@@ -11,9 +11,11 @@ t=1
 def Congelamento (tc,t):
 	dtcdt=-(hc*asupc*(tc-tf))/(ce_cerveja*massacerveja)
 	return dtcdt
+
 tc0=293
 tempo=np.arange (0,30,0.1)
 sol=odeint(Congelamento,tc0,tempo)
+a = np.array(sol)
 
 def Cong (tc,t):
 	dtcdt=-(hc*asupc*(tc-tf))/(ce_cerveja*massacerveja)
@@ -25,14 +27,15 @@ while u<=150:
 	g=u*10
 	if g>=30:
 		if g<60:
-			sol[g+1]=sol[g]+0.1
+			sol[g+1]=sol[g]-0.01
 	u=u+0.1
 
 
 
 time=np.arange (60.1,150,0.1)
 solu=odeint(Cong,sol[60],time)
-sol.append(solu)
+b = np.array (solu)
+np.concatenate((a, b))
 
 #print(solu)
 
@@ -43,5 +46,3 @@ plt.ylabel("Temperatura da cerveja [Kelvin]")
 plt.xlabel("Tempo [minutos]")
 plt.legend(["Temperatura da cerveja","Temperatura de congelamento"])
 plt.show()
-
-
